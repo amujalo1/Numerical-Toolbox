@@ -1,0 +1,325 @@
+{
+    "id": null,
+    "name": "Numeri\u010dki algoritmi (2019\/2020), Zada\u0107a 3, zadatak 2",
+    "languages": [
+        "C++"
+    ],
+    "tools": {
+        "compile": {
+            "require": "g++",
+            "features": [
+                "optimize",
+                "warn",
+                "pedantic",
+                "C++11"
+            ]
+        },
+        "compile[debug]": {
+            "require": "g++",
+            "features": [
+                "debug",
+                "C++11"
+            ]
+        },
+        "execute": {
+            "environment": {
+                "timeout": 10,
+                "memory": 1000000
+            }
+        },
+        "debug": [],
+        "profile[memcheck]": {
+            "require": "valgrind",
+            "features": [
+                "memcheck"
+            ],
+            "environment": {
+                "timeout": 10
+            }
+        },
+        "profile[sgcheck]": {
+            "require": "valgrind",
+            "features": [
+                "sgcheck"
+            ],
+            "environment": {
+                "timeout": 10
+            }
+        }
+    },
+    "tests": [
+        {
+            "compile": [],
+            "options": [
+                "silent",
+                "terminate"
+            ]
+        },
+        {
+            "id": 276,
+            "patch": [
+                {
+                    "position": "main",
+                    "code": "\/\/AT1 - Limit test: Limes (tan(x)-sin(x))\/(x*x*x) x->0:\nauto limes = Limit([](double x) {return (std::tan(x)-std::sin(x))\/(x*x*x);},0);\nstd::cout<<limes.first<<\" \"<<limes.second;",
+                    "use_markers": true
+                }
+            ],
+            "compile[debug]": [],
+            "execute": {
+                "expect": [
+                    "0.5 1"
+                ]
+            },
+            "debug": [],
+            "profile[memcheck]": [],
+            "profile[sgcheck]": []
+        },
+        {
+            "id": 277,
+            "patch": [
+                {
+                    "position": "main",
+                    "code": "\t\n\/\/AT2 - Limit test: Limes (sin(x))\/(x) x->0:\nauto limes = Limit([](double x) {return std::sin(x)\/x;},0);\nstd::cout<<limes.first<<\" \"<<limes.second;",
+                    "use_markers": true
+                }
+            ],
+            "compile[debug]": [],
+            "execute": {
+                "expect": [
+                    "1 1"
+                ]
+            },
+            "debug": [],
+            "profile[memcheck]": [],
+            "profile[sgcheck]": []
+        },
+        {
+            "id": 278,
+            "patch": [
+                {
+                    "position": "main",
+                    "code": "\t\n\/\/AT3 - Limit test: Limes ln(x)\/(x-1) x->1:\nauto limes = Limit([](double x) {return std::log(x)\/(x-1);},1);\nstd::cout<<limes.first<<\" \"<<limes.second;",
+                    "use_markers": true
+                }
+            ],
+            "compile[debug]": [],
+            "execute": {
+                "expect": [
+                    "1 1"
+                ]
+            },
+            "debug": [],
+            "profile[memcheck]": [],
+            "profile[sgcheck]": []
+        },
+        {
+            "id": 279,
+            "patch": [
+                {
+                    "position": "main",
+                    "code": "\t\n\/\/AT4 - Limit test: Limes (exp(x)-1)\/x x->0:\nauto limes = Limit([](double x) {return (std::exp(x)-1)\/x;},0);\nstd::cout<<limes.first<<\" \"<<limes.second;",
+                    "use_markers": true
+                }
+            ],
+            "compile[debug]": [],
+            "execute": {
+                "expect": [
+                    "1 1"
+                ]
+            },
+            "debug": [],
+            "profile[memcheck]": [],
+            "profile[sgcheck]": []
+        },
+        {
+            "id": 280,
+            "patch": [
+                {
+                    "position": "main",
+                    "code": "\/\/AT5 - Limit - Nije dostignuta ta\u010dnost\nauto limes = Limit([](double x) {return std::pow(x,1.\/3);},0,0,1e-12,4);\nstd::cout<<limes.first<<\" \"<<limes.second;\n\n",
+                    "use_markers": true
+                }
+            ],
+            "compile[debug]": [],
+            "execute": {
+                "expect": [
+                    "0.0325429 0"
+                ]
+            },
+            "debug": [],
+            "profile[memcheck]": [],
+            "profile[sgcheck]": []
+        },
+        {
+            "id": 281,
+            "patch": [
+                {
+                    "position": "main",
+                    "code": "\/\/AT6 - Bacanje izuzetaka limit\ntry\n{\n    auto limes = Limit([](double x) {return std::pow(x,1.\/3);},0,0,1e-12,2);\n    \/\/Invalid parameters\n}\ncatch (std::domain_error e)\n{\n    std::cout << \"'\" << e.what() << \"'\";\n}\ncatch (...)\n{\n    std::cout << \"Pogresan tip izuzetka\";\n}",
+                    "use_markers": true
+                }
+            ],
+            "compile[debug]": [],
+            "execute": {
+                "expect": [
+                    "'Invalid parameters'"
+                ]
+            },
+            "debug": [],
+            "profile[memcheck]": [],
+            "profile[sgcheck]": []
+        },
+        {
+            "id": 282,
+            "patch": [
+                {
+                    "position": "main",
+                    "code": "\/\/AT7 - Bacanje izuzetaka limit\ntry\n{\n    auto limes = Limit([](double x) {return std::pow(x,1.\/3);},0,0,1e-12,50);\n    \/\/Invalid parameters\n}\ncatch (std::domain_error e)\n{\n    std::cout << \"'\" << e.what() << \"'\";\n}\ncatch (...)\n{\n    std::cout << \"Pogresan tip izuzetka\";\n}",
+                    "use_markers": true
+                }
+            ],
+            "compile[debug]": [],
+            "execute": {
+                "expect": [
+                    "'Invalid parameters'"
+                ]
+            },
+            "debug": [],
+            "profile[memcheck]": [],
+            "profile[sgcheck]": []
+        },
+        {
+            "id": 283,
+            "patch": [
+                {
+                    "position": "main",
+                    "code": "\/\/AT8 - Bacanje izuzetaka limit\ntry\n{\n    auto limes = Limit([](double x) {return std::pow(x,1.\/3);},0,0,0,5);\n    \/\/Invalid parameters\n}\ncatch (std::domain_error e)\n{\n    std::cout << \"'\" << e.what() << \"'\";\n}\ncatch (...)\n{\n    std::cout << \"Pogresan tip izuzetka\";\n}",
+                    "use_markers": true
+                }
+            ],
+            "compile[debug]": [],
+            "execute": {
+                "expect": [
+                    "'Invalid parameters'"
+                ]
+            },
+            "debug": [],
+            "profile[memcheck]": [],
+            "profile[sgcheck]": []
+        },
+        {
+            "id": 284,
+            "patch": [
+                {
+                    "position": "main",
+                    "code": "\/\/AT9 - Bacanje izuzetaka limit\ntry\n{\n    auto limes = Limit([](double x) {return std::pow(x,1.\/3);},0,0,-10,5);\n    \/\/Invalid parameters\n}\ncatch (std::domain_error e)\n{\n    std::cout << \"'\" << e.what() << \"'\";\n}\ncatch (...)\n{\n    std::cout << \"Pogresan tip izuzetka\";\n}",
+                    "use_markers": true
+                }
+            ],
+            "compile[debug]": [],
+            "execute": {
+                "expect": [
+                    "'Invalid parameters'"
+                ]
+            },
+            "debug": [],
+            "profile[memcheck]": [],
+            "profile[sgcheck]": []
+        },
+        {
+            "id": 285,
+            "patch": [
+                {
+                    "position": "main",
+                    "code": "\/\/AT10 - Limit test: Limes atan(x) x->inf:\ndouble inf = std::numeric_limits<double>::infinity();\nauto limes=Limit([](double x) { return atan(x); }, inf);\nstd::cout<<limes.first<<\" \"<<limes.second;",
+                    "use_markers": true
+                }
+            ],
+            "compile[debug]": [],
+            "execute": {
+                "expect": [
+                    "1.5708 1"
+                ]
+            },
+            "debug": [],
+            "profile[memcheck]": [],
+            "profile[sgcheck]": []
+        },
+        {
+            "id": 286,
+            "patch": [
+                {
+                    "position": "main",
+                    "code": "\/\/AT11 - Limit test: Limes atan(x) x->-inf:\ndouble inf = std::numeric_limits<double>::infinity();\nauto limes =  Limit([](double x) { return atan(x); }, -inf);\nstd::cout<<limes.first<<\" \"<<limes.second;",
+                    "use_markers": true
+                }
+            ],
+            "compile[debug]": [],
+            "execute": {
+                "expect": [
+                    "-1.5708 1"
+                ]
+            },
+            "debug": [],
+            "profile[memcheck]": [],
+            "profile[sgcheck]": []
+        },
+        {
+            "id": 287,
+            "patch": [
+                {
+                    "position": "main",
+                    "code": "\/\/AT12- Limit test: Limes atan(1\/x) x->0, h=1:\nauto limes = Limit([](double x) { return atan(1 \/ x); }, 0, 1);\nstd::cout<<limes.first<<\" \"<<limes.second;",
+                    "use_markers": true
+                }
+            ],
+            "compile[debug]": [],
+            "execute": {
+                "expect": [
+                    "1.5708 1"
+                ]
+            },
+            "debug": [],
+            "profile[memcheck]": [],
+            "profile[sgcheck]": []
+        },
+        {
+            "id": 288,
+            "patch": [
+                {
+                    "position": "main",
+                    "code": "\/\/AT13- Limit test: Limes atan(1\/x) x->0, h=-1:\nauto limes = Limit([](double x) { return atan(1 \/ x); }, 0, -1);\nstd::cout<<limes.first<<\" \"<<limes.second;",
+                    "use_markers": true
+                }
+            ],
+            "compile[debug]": [],
+            "execute": {
+                "expect": [
+                    "-1.5708 1"
+                ]
+            },
+            "debug": [],
+            "profile[memcheck]": [],
+            "profile[sgcheck]": []
+        },
+        {
+            "id": 289,
+            "patch": [
+                {
+                    "position": "main",
+                    "code": "\/\/AT14 - Provjera koraka h Limit\nauto limes=  Limit([](double x) { return sin(x) \/ x; }, 0, 0, 1e-15, 8);\nstd::cout<<limes.first<<\" \"<<limes.second;",
+                    "use_markers": true
+                }
+            ],
+            "compile[debug]": [],
+            "execute": {
+                "expect": [
+                    "1 1"
+                ]
+            },
+            "debug": [],
+            "profile[memcheck]": [],
+            "profile[sgcheck]": []
+        }
+    ]
+}

@@ -1,0 +1,154 @@
+{
+    "buildhost_description": {
+        "id": "gcloud",
+        "os": "Linux 5.10.0-18-cloud-amd64 x86_64\nDebian GNU/Linux 11 (bullseye)\n"
+    },
+    "tools": {
+        "compile": "10.2.1 20210110",
+        "compile[debug]": "10.2.1 20210110",
+        "debug": "10.1.90.20210103-git",
+        "profile[memcheck]": "valgrind-3.16.1",
+        "profile[sgcheck]": "valgrind-3.16.1"
+    },
+    "status": 4,
+    "test_results": {
+        "1": {
+            "success": false,
+            "status": 3,
+            "tools": {
+                "compile": {
+                    "status": 5,
+                    "duration": 0,
+                    "output": "NA3.cpp: In member function ‘int AbstractInterpolator::Locate(double) const’:\nNA3.cpp:40:18: error: use of ‘auto’ in lambda parameter declaration only available with ‘-std=c++14’ or ‘-std=gnu++14’\n   40 |         [](const auto &a, const auto &b) { return a.first < b.first; });\n      |                  ^~~~\nNA3.cpp:40:33: error: use of ‘auto’ in lambda parameter declaration only available with ‘-std=c++14’ or ‘-std=gnu++14’\n   40 |         [](const auto &a, const auto &b) { return a.first < b.first; });\n      |                                 ^~~~\nNA3.cpp: In lambda function:\nNA3.cpp:40:53: error: request for member ‘first’ in ‘a’, which is of non-class type ‘const int’\n   40 |         [](const auto &a, const auto &b) { return a.first < b.first; });\n      |                                                     ^~~~~\nNA3.cpp:40:63: error: request for member ‘first’ in ‘b’, which is of non-class type ‘const int’\n   40 |         [](const auto &a, const auto &b) { return a.first < b.first; });\n      |                                                               ^~~~~\nNA3.cpp: In constructor ‘AbstractInterpolator::AbstractInterpolator(const std::vector<std::pair<double, double> >&)’:\nNA3.cpp:48:50: error: use of ‘auto’ in lambda parameter declaration only available with ‘-std=c++14’ or ‘-std=gnu++14’\n   48 |     std::sort(dots.begin(), dots.end(), [](const auto &a, const auto &b) {\n      |                                                  ^~~~\nNA3.cpp:48:65: error: use of ‘auto’ in lambda parameter declaration only available with ‘-std=c++14’ or ‘-std=gnu++14’\n   48 |     std::sort(dots.begin(), dots.end(), [](const auto &a, const auto &b) {\n      |                                                                 ^~~~\nNA3.cpp: In lambda function:\nNA3.cpp:49:13: error: request for member ‘first’ in ‘a’, which is of non-class type ‘const int’\n   49 |       if (a.first < b.first)\n      |             ^~~~~\nNA3.cpp:49:23: error: request for member ‘first’ in ‘b’, which is of non-class type ‘const int’\n   49 |       if (a.first < b.first)\n      |                       ^~~~~\nNA3.cpp:51:18: error: request for member ‘first’ in ‘a’, which is of non-class type ‘const int’\n   51 |       else if (a.first == b.first)\n      |                  ^~~~~\nNA3.cpp:51:29: error: request for member ‘first’ in ‘b’, which is of non-class type ‘const int’\n   51 |       else if (a.first == b.first)\n      |                             ^~~~~\nNA3.cpp: In member function ‘void PolynomialInterpolator::AddPoint(const std::pair<double, double>&)’:\nNA3.cpp:101:19: warning: comparing floating-point with ‘==’ or ‘!=’ is unsafe [-Wfloat-equal]\n  101 |       if (p.first == dots.at(i).first)\n      |           ~~~~~~~~^~~~~~~~~~~~~~~~~~~\nNA3.cpp: In member function ‘virtual double BarycentricInterpolator::operator()(double) const’:\nNA3.cpp:281:18: warning: comparing floating-point with ‘==’ or ‘!=’ is unsafe [-Wfloat-equal]\n  281 |             if(x == dots.at(i).first) return dots.at(i).second;\n      |                ~~^~~~~~~~~~~~~~~~~~~\nNA3.cpp: In constructor ‘TrigonometricInterpolator::TrigonometricInterpolator(const std::vector<std::pair<double, double> >&)’:\nNA3.cpp:297:33: warning: comparing floating-point with ‘==’ or ‘!=’ is unsafe [-Wfloat-equal]\n  297 |         if (dots.front().second != dots.back().second) {\n      |             ~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~\nIn file included from /usr/include/c++/10/bits/stl_algobase.h:71,\n                 from /usr/include/c++/10/algorithm:61,\n                 from NA3.cpp:1:\n/usr/include/c++/10/bits/predefined_ops.h: In instantiation of ‘bool __gnu_cxx::__ops::_Iter_comp_val<_Compare>::operator()(_Iterator, _Value&) [with _Iterator = __gnu_cxx::__normal_iterator<const std::pair<double, double>*, std::vector<std::pair<double, double> > >; _Value = const std::pair<double, double>; _Compare = AbstractInterpolator::Locate(double) const::<lambda(const int&, const int&)>]’:\n/usr/include/c++/10/bits/stl_algobase.h:1322:14:   required from ‘_ForwardIterator std::__lower_bound(_ForwardIterator, _ForwardIterator, const _Tp&, _Compare) [with _ForwardIterator = __gnu_cxx::__normal_iterator<const std::pair<double, double>*, std::vector<std::pair<double, double> > >; _Tp = std::pair<double, double>; _Compare = __gnu_cxx::__ops::_Iter_comp_val<AbstractInterpolator::Locate(double) const::<lambda(const int&, const int&)> >]’\n/usr/include/c++/10/bits/stl_algo.h:2041:32:   required from ‘_FIter std::lower_bound(_FIter, _FIter, const _Tp&, _Compare) [with _FIter = __gnu_cxx::__normal_iterator<const std::pair<double, double>*, std::vector<std::pair<double, double> > >; _Tp = std::pair<double, double>; _Compare = AbstractInterpolator::Locate(double) const::<lambda(const int&, const int&)>]’\nNA3.cpp:40:71:   required from here\n/usr/include/c++/10/bits/predefined_ops.h:194:23: error: no match for call to ‘(AbstractInterpolator::Locate(double) const::<lambda(const int&, const int&)>) (const std::pair<double, double>&, const std::pair<double, double>&)’\n  194 |  { return bool(_M_comp(*__it, __val)); }\n      |                ~~~~~~~^~~~~~~~~~~~~~\nNA3.cpp:40:9: note: candidate: ‘AbstractInterpolator::Locate(double) const::<lambda(const int&, const int&)>’\n   40 |         [](const auto &a, const auto &b) { return a.first < b.first; });\n      |         ^\nNA3.cpp:40:9: note:   no known conversion for argument 1 from ‘const std::pair<double, double>’ to ‘const int&’\nIn file included from /usr/include/c++/10/bits/stl_algobase.h:71,\n                 from /usr/include/c++/10/algorithm:61,\n                 from NA3.cpp:1:\n/usr/include/c++/10/bits/predefined_ops.h: In instantiation of ‘bool __gnu_cxx::__ops::_Iter_comp_iter<_Compare>::operator()(_Iterator1, _Iterator2) [with _Iterator1 = __gnu_cxx::__normal_iterator<std::pair<double, double>*, std::vector<std::pair<double, double> > >; _Iterator2 = __gnu_cxx::__normal_iterator<std::pair<double, double>*, std::vector<std::pair<double, double> > >; _Compare = AbstractInterpolator::AbstractInterpolator(const std::vector<std::pair<double, double> >&)::<lambda(const int&, const int&)>]’:\n/usr/include/c++/10/bits/stl_algo.h:1846:14:   required from ‘void std::__insertion_sort(_RandomAccessIterator, _RandomAccessIterator, _Compare) [with _RandomAccessIterator = __gnu_cxx::__normal_iterator<std::pair<double, double>*, std::vector<std::pair<double, double> > >; _Compare = __gnu_cxx::__ops::_Iter_comp_iter<AbstractInterpolator::AbstractInterpolator(const std::vector<std::pair<double, double> >&)::<lambda(const int&, const int&)> >]’\n/usr/include/c++/10/bits/stl_algo.h:1886:25:   required from ‘void std::__final_insertion_sort(_RandomAccessIterator, _RandomAccessIterator, _Compare) [with _RandomAccessIterator = __gnu_cxx::__normal_iterator<std::pair<double, double>*, std::vector<std::pair<double, double> > >; _Compare = __gnu_cxx::__ops::_Iter_comp_iter<AbstractInterpolator::AbstractInterpolator(const std::vector<std::pair<double, double> >&)::<lambda(const int&, const int&)> >]’\n/usr/include/c++/10/bits/stl_algo.h:1977:31:   required from ‘void std::__sort(_RandomAccessIterator, _RandomAccessIterator, _Compare) [with _RandomAccessIterator = __gnu_cxx::__normal_iterator<std::pair<double, double>*, std::vector<std::pair<double, double> > >; _Compare = __gnu_cxx::__ops::_Iter_comp_iter<AbstractInterpolator::AbstractInterpolator(const std::vector<std::pair<double, double> >&)::<lambda(const int&, const int&)> >]’\n/usr/include/c++/10/bits/stl_algo.h:4894:18:   required from ‘void std::sort(_RAIter, _RAIter, _Compare) [with _RAIter = __gnu_cxx::__normal_iterator<std::pair<double, double>*, std::vector<std::pair<double, double> > >; _Compare = AbstractInterpolator::AbstractInterpolator(const std::vector<std::pair<double, double> >&)::<lambda(const int&, const int&)>]’\nNA3.cpp:54:6:   required from here\n/usr/include/c++/10/bits/predefined_ops.h:156:30: error: no match for call to ‘(AbstractInterpolator::AbstractInterpolator(const std::vector<std::pair<double, double> >&)::<lambda(const int&, const int&)>) (std::pair<double, double>&, std::pair<double, double>&)’\n  156 |         { return bool(_M_comp(*__it1, *__it2)); }\n      |                       ~~~~~~~^~~~~~~~~~~~~~~~\n/usr/include/c++/10/bits/predefined_ops.h:156:30: note: candidate: ‘bool (*)(const int&, const int&)’ (conversion)\n/usr/include/c++/10/bits/predefined_ops.h:156:30: note:   candidate expects 3 arguments, 3 provided\nNA3.cpp:48:41: note: candidate: ‘AbstractInterpolator::AbstractInterpolator(const std::vector<std::pair<double, double> >&)::<lambda(const int&, const int&)>’\n   48 |     std::sort(dots.begin(), dots.end(), [](const auto &a, const auto &b) {\n      |                                         ^\nNA3.cpp:48:41: note:   no known conversion for argument 1 from ‘std::pair<double, double>’ to ‘const int&’\nIn file included from /usr/include/c++/10/bits/stl_algobase.h:71,\n                 from /usr/include/c++/10/algorithm:61,\n                 from NA3.cpp:1:\n/usr/include",
+                    "exit_code": 2,
+                    "success": false,
+                    "parsed_output": [
+                        {
+                            "type": "error",
+                            "file": "NA3.cpp",
+                            "line": "40",
+                            "col": "18",
+                            "message": "use of 'auto' in lambda parameter declaration only available with '-std=c++14' or '-std=gnu++14'",
+                            "code": "[](const auto &a, const auto &b) { return a.first < b.first; });"
+                        },
+                        {
+                            "type": "error",
+                            "file": "NA3.cpp",
+                            "line": "40",
+                            "col": "33",
+                            "message": "use of 'auto' in lambda parameter declaration only available with '-std=c++14' or '-std=gnu++14'",
+                            "code": "[](const auto &a, const auto &b) { return a.first < b.first; });"
+                        },
+                        {
+                            "type": "error",
+                            "file": "NA3.cpp",
+                            "line": "40",
+                            "col": "53",
+                            "message": "request for member 'first' in 'a', which is of non-class type 'const int'",
+                            "code": "[](const auto &a, const auto &b) { return a.first < b.first; });"
+                        },
+                        {
+                            "type": "error",
+                            "file": "NA3.cpp",
+                            "line": "40",
+                            "col": "63",
+                            "message": "request for member 'first' in 'b', which is of non-class type 'const int'",
+                            "code": "[](const auto &a, const auto &b) { return a.first < b.first; });"
+                        },
+                        {
+                            "type": "error",
+                            "file": "NA3.cpp",
+                            "line": "48",
+                            "col": "50",
+                            "message": "use of 'auto' in lambda parameter declaration only available with '-std=c++14' or '-std=gnu++14'",
+                            "code": "std::sort(dots.begin(), dots.end(), [](const auto &a, const auto &b) {"
+                        },
+                        {
+                            "type": "error",
+                            "file": "NA3.cpp",
+                            "line": "48",
+                            "col": "65",
+                            "message": "use of 'auto' in lambda parameter declaration only available with '-std=c++14' or '-std=gnu++14'",
+                            "code": "std::sort(dots.begin(), dots.end(), [](const auto &a, const auto &b) {"
+                        },
+                        {
+                            "type": "error",
+                            "file": "NA3.cpp",
+                            "line": "49",
+                            "col": "13",
+                            "message": "request for member 'first' in 'a', which is of non-class type 'const int'",
+                            "code": "if (a.first < b.first)"
+                        },
+                        {
+                            "type": "error",
+                            "file": "NA3.cpp",
+                            "line": "49",
+                            "col": "23",
+                            "message": "request for member 'first' in 'b', which is of non-class type 'const int'",
+                            "code": "if (a.first < b.first)"
+                        },
+                        {
+                            "type": "error",
+                            "file": "NA3.cpp",
+                            "line": "51",
+                            "col": "18",
+                            "message": "request for member 'first' in 'a', which is of non-class type 'const int'",
+                            "code": "else if (a.first == b.first)"
+                        },
+                        {
+                            "type": "error",
+                            "file": "NA3.cpp",
+                            "line": "51",
+                            "col": "29",
+                            "message": "request for member 'first' in 'b', which is of non-class type 'const int'",
+                            "code": "else if (a.first == b.first)"
+                        },
+                        {
+                            "type": "warning",
+                            "file": "NA3.cpp",
+                            "line": "101",
+                            "col": "19",
+                            "message": "comparing floating-point with '==' or '!=' is unsafe",
+                            "code": "if (p.first == dots.at(i).first)"
+                        },
+                        {
+                            "type": "warning",
+                            "file": "NA3.cpp",
+                            "line": "281",
+                            "col": "18",
+                            "message": "comparing floating-point with '==' or '!=' is unsafe",
+                            "code": "if(x == dots.at(i).first) return dots.at(i).second;"
+                        },
+                        {
+                            "type": "warning",
+                            "file": "NA3.cpp",
+                            "line": "297",
+                            "col": "33",
+                            "message": "comparing floating-point with '==' or '!=' is unsafe",
+                            "code": "if (dots.front().second != dots.back().second) {"
+                        },
+                        {
+                            "type": "error",
+                            "file": "/usr/include/c++/10/bits/predefined_ops.h",
+                            "line": "194",
+                            "col": "23",
+                            "message": "no match for call to '(AbstractInterpolator::Locate(double) const::<lambda(const int&, const int&)>) (const std::pair<double, double>&, const std::pair<double, double>&)'",
+                            "code": "{ return bool(_M_comp(*__it, __val)); }"
+                        },
+                        {
+                            "type": "error",
+                            "file": "/usr/include/c++/10/bits/predefined_ops.h",
+                            "line": "156",
+                            "col": "30",
+                            "message": "no match for call to '(AbstractInterpolator::AbstractInterpolator(const std::vector<std::pair<double, double> >&)::<lambda(const int&, const int&)>) (std::pair<double, double>&, std::pair<double, double>&)'",
+                            "code": "{ return bool(_M_comp(*__it1, *__it2)); }"
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    "time": 1702326185,
+    "program_id": 88244,
+    "task_id": "70221"
+}

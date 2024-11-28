@@ -1,0 +1,154 @@
+{
+    "id": null,
+    "name": "Numeri\u010dki algoritmi (2019\/2020), Zada\u0107a 5, zadatak 4",
+    "languages": [
+        "C++"
+    ],
+    "tools": {
+        "compile": {
+            "require": "g++",
+            "features": [
+                "optimize",
+                "warn",
+                "pedantic",
+                "C++11"
+            ]
+        },
+        "compile[debug]": {
+            "require": "g++",
+            "features": [
+                "debug",
+                "C++11"
+            ]
+        },
+        "execute": {
+            "environment": {
+                "timeout": 10,
+                "memory": 1000000
+            }
+        },
+        "debug": [],
+        "profile[memcheck]": {
+            "require": "valgrind",
+            "features": [
+                "memcheck"
+            ],
+            "environment": {
+                "timeout": 10
+            }
+        },
+        "profile[sgcheck]": {
+            "require": "valgrind",
+            "features": [
+                "sgcheck"
+            ],
+            "environment": {
+                "timeout": 10
+            }
+        }
+    },
+    "tests": [
+        {
+            "compile": [],
+            "options": [
+                "silent",
+                "terminate"
+            ]
+        },
+        {
+            "id": 76,
+            "patch": [
+                {
+                    "position": "main",
+                    "code": "\/\/ Test 1: DCT\/IDCT\nstd::vector<double> x{1, 2, 3, 4, 4, 3, 2, 1};\nauto y = LossyCompress(x, 8);\nfor(double e : y) std::cout << e << \" \";\nstd::cout << std::endl;\nauto xx = LossyDecompress(y);\nfor(auto e : xx) std::cout << e << \" \";",
+                    "use_markers": true
+                }
+            ],
+            "compile[debug]": [],
+            "execute": {
+                "expect": [
+                    "20 0 -6.30864 0 0 0 -0.448342 8\n1 2 3 4 4 3 2 1"
+                ]
+            },
+            "debug": [],
+            "profile[memcheck]": [],
+            "profile[sgcheck]": []
+        },
+        {
+            "id": 77,
+            "patch": [
+                {
+                    "position": "main",
+                    "code": "\/\/ Test 2: uzorci zbira nekoliko harmonijskih funkcija kompresuju se odlicno\nconst double PI = 4 * std::atan(1);\nstd::vector<double> x(128);\nfor(int i = 0; i < 128; i++) {\n    double t = PI * (i + 0.5) \/ 128;\n    x[i] = 3 * std::cos(t) - 0.4 * std::cos(2 * t) + 0.2 * std::cos(3 * t);\n}\nauto y = LossyCompress(x, 5);\nauto xx = LossyDecompress(y);\ndouble maxerr = 0;\nfor(int i = 0; i < x.size(); i++)\nif(std::fabs(xx[i] - x[i]) > maxerr) maxerr = std::fabs(xx[i] - x[i]);\nif(maxerr < 1e-10) std::cout << \"OK\";\n",
+                    "use_markers": true
+                }
+            ],
+            "compile[debug]": [],
+            "execute": {
+                "expect": [
+                    "OK"
+                ]
+            },
+            "debug": [],
+            "profile[memcheck]": [],
+            "profile[sgcheck]": []
+        },
+        {
+            "id": 78,
+            "patch": [
+                {
+                    "position": "main",
+                    "code": "\/\/ Test 3: kompresija na polovicu du\u017eine\nconst double PI = 4 * std::atan(1);\nstd::vector<double> x(128);\nfor(int i = 0; i < 128; i++) x[i] = i;\nauto y = LossyCompress(x, 64);\nauto xx = LossyDecompress(y);\ndouble toterr = 0;\nfor(int i = 0; i < x.size(); i++) toterr += std::fabs(xx[i] - x[i]);\nstd::cout << toterr \/ 128;",
+                    "use_markers": true
+                }
+            ],
+            "compile[debug]": [],
+            "execute": {
+                "expect": [
+                    "0.0109891"
+                ]
+            },
+            "debug": [],
+            "profile[memcheck]": [],
+            "profile[sgcheck]": []
+        },
+        {
+            "id": 79,
+            "patch": [
+                {
+                    "position": "main",
+                    "code": "\/\/ Test 4: kompresija na osminu du\u017eine\nconst double PI = 4 * std::atan(1);\nstd::vector<double> x(128);\nfor(int i = 0; i < 128; i++) x[i] = i;\nauto y = LossyCompress(x, 16);\nauto xx = LossyDecompress(y);\ndouble toterr = 0;\nfor(int i = 0; i < x.size(); i++) toterr += std::fabs(xx[i] - x[i]);\nstd::cout << toterr \/ 128;\n",
+                    "use_markers": true
+                }
+            ],
+            "compile[debug]": [],
+            "execute": {
+                "expect": [
+                    "0.184188"
+                ]
+            },
+            "debug": [],
+            "profile[memcheck]": [],
+            "profile[sgcheck]": []
+        },
+        {
+            "id": 80,
+            "patch": [
+                {
+                    "position": "main",
+                    "code": "\/\/ Test 5: kompresija izuzeci\ntry {\n    LossyCompress({1, 2, 3, 4}, -1);\n}\ncatch(std::range_error e) {\n    std::cout << \"'\" << e.what() << \"'\" << std::endl;\n}\ntry {\n    LossyCompress({1, 2, 3, 4}, 5);\n}\ncatch(std::range_error e) {\n    std::cout << \"'\" << e.what() << \"'\" << std::endl;\n}\ntry {\n    LossyCompress({1, 2, 3, 4, 5}, 2);\n}\ncatch(std::range_error e) {\n    std::cout << \"'\" << e.what() << \"'\" << std::endl;\n}\ntry {\n    LossyDecompress({0, 0, 0, 0, 3});\n}\ncatch(std::logic_error e) {\n    std::cout << \"'\" << e.what() << \"'\" << std::endl;\n}\ntry {\n    LossyDecompress({0, 0, 0, 0, 0, 0, 4});\n}\ncatch(std::logic_error e) {\n    std::cout << \"'\" << e.what() << \"'\" << std::endl;\n}\ntry {\n    LossyDecompress({0, 0, 0, 0, 1.5});\n}\ncatch(std::logic_error e) {\n    std::cout << \"'\" << e.what() << \"'\";\n}",
+                    "use_markers": true
+                }
+            ],
+            "compile[debug]": [],
+            "execute": {
+                "expect": [
+                    "'Bad new size'\n'Bad new size'\n'Data size must be a power of two'\n'Bad compressed sequence'\n'Bad compressed sequence'\n'Bad compressed sequence'"
+                ]
+            },
+            "debug": [],
+            "profile[memcheck]": [],
+            "profile[sgcheck]": []
+        }
+    ]
+}

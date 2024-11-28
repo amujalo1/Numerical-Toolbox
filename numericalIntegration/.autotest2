@@ -1,0 +1,783 @@
+{
+    "id": 0,
+    "name": "Numeri\u010dki algoritmi (2019\/2020), Zada\u0107a 4, zadatak 2",
+    "languages": [
+        "C++"
+    ],
+    "tools": {
+        "compile": {
+            "require": "g++",
+            "features": [
+                "optimize",
+                "warn",
+                "pedantic",
+                "C++11"
+            ]
+        },
+        "compile[debug]": {
+            "require": "g++",
+            "features": [
+                "debug",
+                "C++11"
+            ]
+        },
+        "execute": {
+            "environment": {
+                "timeout": 10,
+                "memory": 1000000
+            }
+        },
+        "debug": [],
+        "profile[memcheck]": {
+            "require": "valgrind",
+            "features": [
+                "memcheck"
+            ],
+            "environment": {
+                "timeout": 10
+            }
+        },
+        "profile[sgcheck]": {
+            "require": "valgrind",
+            "features": [
+                "sgcheck"
+            ],
+            "environment": {
+                "timeout": 10
+            }
+        }
+    },
+    "tests": [
+        {
+            "id": 163,
+            "name": "Test 1",
+            "options": [
+                "silent",
+                "terminate"
+            ],
+            "compile": []
+        },
+        {
+            "id": 125,
+            "patch": [
+                {
+                    "position": "main",
+                    "code": "\/\/AT1 - Romberg integration - 1\nconst double PIPI1 = 4 * std::atan(1);\nauto sinf1 = [](double x) { return std::sin(x); };\nauto rig = RombergIntegration(sinf1, 0, PIPI1);\nstd::cout << rig.first << \" \" << rig.second;",
+                    "use_markers": true
+                }
+            ],
+            "compile[debug]": [],
+            "execute": {
+                "expect": [
+                    "2 1"
+                ]
+            },
+            "debug": [],
+            "profile[memcheck]": [],
+            "profile[sgcheck]": []
+        },
+        {
+            "id": 126,
+            "patch": [
+                {
+                    "position": "main",
+                    "code": "\/\/AT2 - Romberg integration - 2\nauto inv1 = [](double x) { return 1 \/ x; };\nauto rig = RombergIntegration(inv1, 1, 2);\nstd::cout << rig.first << \" \" << rig.second;",
+                    "use_markers": true
+                }
+            ],
+            "compile[debug]": [],
+            "execute": {
+                "expect": [
+                    "0.693147 1"
+                ]
+            },
+            "debug": [],
+            "profile[memcheck]": [],
+            "profile[sgcheck]": []
+        },
+        {
+            "id": 127,
+            "patch": [
+                {
+                    "position": "main",
+                    "code": "\/\/AT3 - Romberg integration - 3\nauto invsq1 = [](double x) { return x == 0 ? 0 : 1 \/ std::sqrt(x); };\nauto rig = RombergIntegration(invsq1, 0, 1);\nstd::cout << rig.first << \" \" << rig.second<< std::endl;\nrig = RombergIntegration(invsq1, 0, 1, 1e-8, 100000000);\nstd::cout << rig.first << \" \" << rig.second;",
+                    "use_markers": true
+                }
+            ],
+            "compile[debug]": [],
+            "execute": {
+                "expect": [
+                    "1.99832 0\n1.99985 0"
+                ]
+            },
+            "debug": [],
+            "profile[memcheck]": [],
+            "profile[sgcheck]": []
+        },
+        {
+            "id": 128,
+            "patch": [
+                {
+                    "position": "main",
+                    "code": "\/\/AT4 - Romberg integration - 4\nauto sinc2 = [](double x) { return x == 0 ? 1 : std::sin(x) \/ x; };\nauto rig =  RombergIntegration(sinc2, 0, 1e8);\nstd::cout << rig.first << \" \" << rig.second;",
+                    "use_markers": true
+                }
+            ],
+            "compile[debug]": [],
+            "execute": {
+                "expect": [
+                    "59.08 0"
+                ]
+            },
+            "debug": [],
+            "profile[memcheck]": [],
+            "profile[sgcheck]": []
+        },
+        {
+            "id": 129,
+            "patch": [
+                {
+                    "position": "main",
+                    "code": "\/\/AT5 - Romberg integration - 5\nauto sinc3 = [](double x) { return x == 0 ? 1 : std::sin(x) \/ x; };\nauto rig =  RombergIntegration(sinc3, 0, 1e8, 1e-8, 10000000);\nstd::cout << rig.first << \" \" << rig.second;",
+                    "use_markers": true
+                }
+            ],
+            "compile[debug]": [],
+            "execute": {
+                "expect": [
+                    "2.2566 0"
+                ]
+            },
+            "debug": [],
+            "profile[memcheck]": [],
+            "profile[sgcheck]": []
+        },
+        {
+            "id": 130,
+            "patch": [
+                {
+                    "position": "main",
+                    "code": "\/\/AT6 -  Rombergintegration - Izuzetak 1\ntry\n{\nauto sinc3 = [](double x) { return x == 0 ? 1 : std::sin(x) \/ x; };\nauto rig =  RombergIntegration(sinc3, 0, 1e8, -10, 10000000);\n}\ncatch (std::domain_error e)\n{\nstd::cout << \"'\" << e.what() << \"'\";\n}\ncatch (...)\n{\nstd::cout << \"Pogresan tip izuzetka\";\n}",
+                    "use_markers": true
+                }
+            ],
+            "compile[debug]": [],
+            "execute": {
+                "expect": [
+                    "'Bad parameter'"
+                ]
+            },
+            "debug": [],
+            "profile[memcheck]": [],
+            "profile[sgcheck]": []
+        },
+        {
+            "id": 131,
+            "patch": [
+                {
+                    "position": "main",
+                    "code": "\/\/AT7 -  Rombergintegration - Izuzetak 2\ntry\n{\nauto sinc3 = [](double x) { return x == 0 ? 1 : std::sin(x) \/ x; };\nauto rig =  RombergIntegration(sinc3, 0, 1e8, 1e-8, -500, 1500);\n}\ncatch (std::domain_error e)\n{\nstd::cout << \"'\" << e.what() << \"'\";\n}\ncatch (...)\n{\nstd::cout << \"Pogresan tip izuzetka\";\n}",
+                    "use_markers": true
+                }
+            ],
+            "compile[debug]": [],
+            "execute": {
+                "expect": [
+                    "'Bad parameter'"
+                ]
+            },
+            "debug": [],
+            "profile[memcheck]": [],
+            "profile[sgcheck]": []
+        },
+        {
+            "id": 132,
+            "patch": [
+                {
+                    "position": "main",
+                    "code": "\/\/AT8 -  Rombergintegration - Izuzetak 3\ntry\n{\nauto sinc3 = [](double x) { return x == 0 ? 1 : std::sin(x) \/ x; };\nauto rig =  RombergIntegration(sinc3, 0, 1e8, 1e-8, 10000, -1500);\n}\ncatch (std::domain_error e)\n{\nstd::cout << \"'\" << e.what() << \"'\";\n}\ncatch (...)\n{\nstd::cout << \"Pogresan tip izuzetka\";\n}",
+                    "use_markers": true
+                }
+            ],
+            "compile[debug]": [],
+            "execute": {
+                "expect": [
+                    "'Bad parameter'"
+                ]
+            },
+            "debug": [],
+            "profile[memcheck]": [],
+            "profile[sgcheck]": []
+        },
+        {
+            "id": 133,
+            "patch": [
+                {
+                    "position": "main",
+                    "code": "\/\/AT9 -  Rombergintegration - Izuzetak 4\ntry\n{\nauto sinc3 = [](double x) { return x == 0 ? 1 : std::sin(x) \/ x; };\nauto rig =  RombergIntegration(sinc3, 0, 1e8, 1e-8, 10000,1000000);\n}\ncatch (std::domain_error e)\n{\nstd::cout << \"'\" << e.what() << \"'\";\n}\ncatch (...)\n{\nstd::cout << \"Pogresan tip izuzetka\";\n}",
+                    "use_markers": true
+                }
+            ],
+            "compile[debug]": [],
+            "execute": {
+                "expect": [
+                    "'Bad parameter'"
+                ]
+            },
+            "debug": [],
+            "profile[memcheck]": [],
+            "profile[sgcheck]": []
+        },
+        {
+            "id": 134,
+            "patch": [
+                {
+                    "position": "main",
+                    "code": "\/\/AT10 - Adaptive integration - 1\nconst double PIPI = 4 * std::atan(1);\nauto sinf = [](double x) { return std::sin(x); };\nauto aig = AdaptiveIntegration(sinf, 0, PIPI);\nstd::cout << aig.first << \" \" << aig.second;",
+                    "use_markers": true
+                }
+            ],
+            "compile[debug]": [],
+            "execute": {
+                "expect": [
+                    "2 1"
+                ]
+            },
+            "debug": [],
+            "profile[memcheck]": [],
+            "profile[sgcheck]": []
+        },
+        {
+            "id": 135,
+            "patch": [
+                {
+                    "position": "main",
+                    "code": "\/\/AT11 - Adaptive integration - 2\nauto inv = [](double x) { return 1 \/ x; };\nauto aig = AdaptiveIntegration(inv, 1, 2);\nstd::cout << aig.first << \" \" << aig.second;",
+                    "use_markers": true
+                }
+            ],
+            "compile[debug]": [],
+            "execute": {
+                "expect": [
+                    "0.693147 1"
+                ]
+            },
+            "debug": [],
+            "profile[memcheck]": [],
+            "profile[sgcheck]": []
+        },
+        {
+            "id": 136,
+            "patch": [
+                {
+                    "position": "main",
+                    "code": "\/\/AT12 - Adaptive integration - 3\nauto invsq = [](double x) { return x == 0 ? 0 : 1 \/ std::sqrt(x); };\nauto aig =  AdaptiveIntegration(invsq, 0, 1);\nstd::cout << aig.first << \" \" << aig.second << std::endl;\naig =  AdaptiveIntegration(invsq, 0, 1, 1e-8, 50);\nstd::cout << aig.first << \" \" << aig.second;",
+                    "use_markers": true
+                }
+            ],
+            "compile[debug]": [],
+            "execute": {
+                "expect": [
+                    "1.99998 0\n2 1"
+                ]
+            },
+            "debug": [],
+            "profile[memcheck]": [],
+            "profile[sgcheck]": []
+        },
+        {
+            "id": 137,
+            "patch": [
+                {
+                    "position": "main",
+                    "code": "\/\/AT13 - Adaptive integration - 4\nauto sinc = [](double x) { return x == 0 ? 1 : std::sin(x) \/ x; };\nauto aig =  AdaptiveIntegration(sinc, 0, 1e8, 1e-10, 23);\nstd::cout << aig.first << \" \" << aig.second;",
+                    "use_markers": true
+                }
+            ],
+            "compile[debug]": [],
+            "execute": {
+                "expect": [
+                    "1.5708 0"
+                ]
+            },
+            "debug": [],
+            "profile[memcheck]": [],
+            "profile[sgcheck]": []
+        },
+        {
+            "id": 138,
+            "patch": [
+                {
+                    "position": "main",
+                    "code": "\/\/AT14 - Adaptive integration - 5\nauto sinc1 = [](double x) { return x == 0 ? 1 : std::sin(x) \/ x; };\nauto aig =  AdaptiveIntegration(sinc1, 0, 1e8, 1e-10, 20);\nstd::cout << aig.first << \" \" << aig.second;",
+                    "use_markers": true
+                }
+            ],
+            "compile[debug]": [],
+            "execute": {
+                "expect": [
+                    "6.80678 0"
+                ]
+            },
+            "debug": [],
+            "profile[memcheck]": [],
+            "profile[sgcheck]": []
+        },
+        {
+            "id": 139,
+            "patch": [
+                {
+                    "position": "main",
+                    "code": "\/\/AT15 - Adaptive integration - 6\nauto aig =  AdaptiveIntegration([](double x) { return 1 \/ std::sqrt(x); }, 0, 1, 1e-6, 40);\nstd::cout << aig.first << \" \" << aig.second;",
+                    "use_markers": true
+                }
+            ],
+            "compile[debug]": [],
+            "execute": {
+                "expect": [
+                    "2 1"
+                ]
+            },
+            "debug": [],
+            "profile[memcheck]": [],
+            "profile[sgcheck]": []
+        },
+        {
+            "id": 140,
+            "patch": [
+                {
+                    "position": "main",
+                    "code": "\/\/AT16 - Adaptive integration - 7\nauto aig =  AdaptiveIntegration([](double x) { return std::log(std::abs(x-1.372)); }, 0, 2, 1e-6, 40);\nstd::cout << aig.first << \" \" << aig.second;",
+                    "use_markers": true
+                }
+            ],
+            "compile[debug]": [],
+            "execute": {
+                "expect": [
+                    "-1.85823 1"
+                ]
+            },
+            "debug": [],
+            "profile[memcheck]": [],
+            "profile[sgcheck]": []
+        },
+        {
+            "id": 141,
+            "patch": [
+                {
+                    "position": "main",
+                    "code": "\/\/AT17 - Adaptive integration - 8\nauto aig =  AdaptiveIntegration([](double x) { return std::log(std::abs(x-1)); }, 0, 2, 1e-6, 40);\nstd::cout << aig.first << \" \" << aig.second;",
+                    "use_markers": true
+                }
+            ],
+            "compile[debug]": [],
+            "execute": {
+                "expect": [
+                    "-2 1"
+                ]
+            },
+            "debug": [],
+            "profile[memcheck]": [],
+            "profile[sgcheck]": []
+        },
+        {
+            "id": 142,
+            "patch": [
+                {
+                    "position": "main",
+                    "code": "\/\/AT18 - Adaptive integration - 9\nauto aig =  AdaptiveIntegration([](double x) { return std::log(std::abs(x-1)); }, 0, 2, 1e-8, 15);\nstd::cout << aig.first << \" \" << aig.second;",
+                    "use_markers": true
+                }
+            ],
+            "compile[debug]": [],
+            "execute": {
+                "expect": [
+                    "-1.99986 0"
+                ]
+            },
+            "debug": [],
+            "profile[memcheck]": [],
+            "profile[sgcheck]": []
+        },
+        {
+            "id": 143,
+            "patch": [
+                {
+                    "position": "main",
+                    "code": "\/\/AT19 - Adaptive integration - 10\nauto aig =  AdaptiveIntegration([](double x) { return std::log(std::abs(x-1)); }, 0, 2, 1e-8,22);\nstd::cout << aig.first << \" \" << aig.second;",
+                    "use_markers": true
+                }
+            ],
+            "compile[debug]": [],
+            "execute": {
+                "expect": [
+                    "-2 0"
+                ]
+            },
+            "debug": [],
+            "profile[memcheck]": [],
+            "profile[sgcheck]": []
+        },
+        {
+            "id": 144,
+            "patch": [
+                {
+                    "position": "main",
+                    "code": "\/\/AT20 - Adaptive integration - 11\nauto aig =  AdaptiveIntegration([](double x) { return std::log(std::abs(x-1)); }, 0, 2, 1e-8,35);\nstd::cout << aig.first << \" \" << aig.second;",
+                    "use_markers": true
+                }
+            ],
+            "compile[debug]": [],
+            "execute": {
+                "expect": [
+                    "-2 1"
+                ]
+            },
+            "debug": [],
+            "profile[memcheck]": [],
+            "profile[sgcheck]": []
+        },
+        {
+            "id": 145,
+            "patch": [
+                {
+                    "position": "main",
+                    "code": "\/\/AT21 -  Adaptiveintegration - Izuzetak 1\ntry\n{\nauto sinc3 = [](double x) { return x == 0 ? 1 : std::sin(x) \/ x; };\nauto aig = AdaptiveIntegration(sinc3, 0, 1e8, -5);\n}\ncatch (std::domain_error e)\n{\nstd::cout << \"'\" << e.what() << \"'\";\n}\ncatch (...)\n{\nstd::cout << \"Pogresan tip izuzetka\";\n}",
+                    "use_markers": true
+                }
+            ],
+            "compile[debug]": [],
+            "execute": {
+                "expect": [
+                    "'Bad parameter'"
+                ]
+            },
+            "debug": [],
+            "profile[memcheck]": [],
+            "profile[sgcheck]": []
+        },
+        {
+            "id": 146,
+            "patch": [
+                {
+                    "position": "main",
+                    "code": "\/\/AT22 -  Adaptiveintegration - Izuzetak 2\ntry\n{\nauto sinc3 = [](double x) { return x == 0 ? 1 : std::sin(x) \/ x; };\nauto aig = AdaptiveIntegration(sinc3, 0, 1e8, 1e-8,-20);\n}\ncatch (std::domain_error e)\n{\nstd::cout << \"'\" << e.what() << \"'\";\n}\ncatch (...)\n{\nstd::cout << \"Pogresan tip izuzetka\";\n}",
+                    "use_markers": true
+                }
+            ],
+            "compile[debug]": [],
+            "execute": {
+                "expect": [
+                    "'Bad parameter'"
+                ]
+            },
+            "debug": [],
+            "profile[memcheck]": [],
+            "profile[sgcheck]": []
+        },
+        {
+            "id": 147,
+            "patch": [
+                {
+                    "position": "main",
+                    "code": "\/\/AT23 -  Adaptiveintegration - Izuzetak 3\ntry\n{\nauto sinc3 = [](double x) { return x == 0 ? 1 : std::sin(x) \/ x; };\nauto aig = AdaptiveIntegration(sinc3, 0, 1e8, 1e-8,30,-5);\n}\ncatch (std::domain_error e)\n{\nstd::cout << \"'\" << e.what() << \"'\";\n}\ncatch (...)\n{\nstd::cout << \"Pogresan tip izuzetka\";\n}",
+                    "use_markers": true
+                }
+            ],
+            "compile[debug]": [],
+            "execute": {
+                "expect": [
+                    "'Bad parameter'"
+                ]
+            },
+            "debug": [],
+            "profile[memcheck]": [],
+            "profile[sgcheck]": []
+        },
+        {
+            "id": 148,
+            "patch": [
+                {
+                    "position": "main",
+                    "code": "\/\/AT24 - TanhSinh integration - 1\nauto rez = TanhSinhIntegration([](double x) { return std::log(std::abs(x-1.372)); }, 0, 2, 1e-5, 2000000);\n  std::cout << rez.first << \" \" << rez.second;;",
+                    "use_markers": true
+                }
+            ],
+            "compile[debug]": [],
+            "execute": {
+                "expect": [
+                    "-1.85823 1"
+                ]
+            },
+            "debug": [],
+            "profile[memcheck]": [],
+            "profile[sgcheck]": []
+        },
+        {
+            "id": 149,
+            "patch": [
+                {
+                    "position": "main",
+                    "code": "\/\/AT25 - TanhSinh integration - 2\nconst double PIPI1 = 4 * std::atan(1);\nauto sinf = [](double x) { return std::sin(x); };\nauto rez = TanhSinhIntegration(sinf, 0, PIPI1);\nstd::cout << rez.first << \" \" << rez.second;",
+                    "use_markers": true
+                }
+            ],
+            "compile[debug]": [],
+            "execute": {
+                "expect": [
+                    "2 1"
+                ]
+            },
+            "debug": [],
+            "profile[memcheck]": [],
+            "profile[sgcheck]": []
+        },
+        {
+            "id": 150,
+            "patch": [
+                {
+                    "position": "main",
+                    "code": "\/\/AT26 - TanhSinh integration - 3\nauto sinc = [](double x) { return x == 0 ? 1 : std::sin(x) \/ x; };\nauto rez = TanhSinhIntegration(sinc, 0, 1);\nstd::cout << rez.first << \" \" << rez.second;",
+                    "use_markers": true
+                }
+            ],
+            "compile[debug]": [],
+            "execute": {
+                "expect": [
+                    "0.946083 1"
+                ]
+            },
+            "debug": [],
+            "profile[memcheck]": [],
+            "profile[sgcheck]": []
+        },
+        {
+            "id": 151,
+            "patch": [
+                {
+                    "position": "main",
+                    "code": "\/\/AT27 - TanhSinh integration - 4\nauto rez = TanhSinhIntegration([](double x) { return std::log(x); }, 0, 1);\nstd::cout << rez.first << \" \" << rez.second;",
+                    "use_markers": true
+                }
+            ],
+            "compile[debug]": [],
+            "execute": {
+                "expect": [
+                    "-1 1"
+                ]
+            },
+            "debug": [],
+            "profile[memcheck]": [],
+            "profile[sgcheck]": []
+        },
+        {
+            "id": 152,
+            "patch": [
+                {
+                    "position": "main",
+                    "code": "\/\/AT28 - TanhSinh integration - 5\nauto sinc = [](double x) { return x == 0 ? 1 : std::sin(x) \/ x; };\nauto rez = TanhSinhIntegration(sinc, 0, 1e8, 1e-8, 10000000, 3.5);\nstd::cout << rez.first << \" \" << rez.second;",
+                    "use_markers": true
+                }
+            ],
+            "compile[debug]": [],
+            "execute": {
+                "expect": [
+                    "1.56713 0"
+                ]
+            },
+            "debug": [],
+            "profile[memcheck]": [],
+            "profile[sgcheck]": []
+        },
+        {
+            "id": 153,
+            "patch": [
+                {
+                    "position": "main",
+                    "code": "\/\/AT29 - TanhSinh integration - 6\nauto sinc = [](double x) { return std::sin(x) \/ x; };\nauto rez = TanhSinhIntegration(sinc, 0, 1e8, 1e-8, 10000000, 3.5);\nstd::cout << rez.first << \" \" << rez.second;",
+                    "use_markers": true
+                }
+            ],
+            "compile[debug]": [],
+            "execute": {
+                "expect": [
+                    "1.56713 0"
+                ]
+            },
+            "debug": [],
+            "profile[memcheck]": [],
+            "profile[sgcheck]": []
+        },
+        {
+            "id": 154,
+            "patch": [
+                {
+                    "position": "main",
+                    "code": "\/\/AT30 - TanhSinh integration - 7\nauto rez = TanhSinhIntegration([](double x) { return log(fabs(x - 1)); }, 0, 1, 1e-8, 1000000);\nstd::cout << rez.first << \" \" << rez.second;",
+                    "use_markers": true
+                }
+            ],
+            "compile[debug]": [],
+            "execute": {
+                "expect": [
+                    "-1 1"
+                ]
+            },
+            "debug": [],
+            "profile[memcheck]": [],
+            "profile[sgcheck]": []
+        },
+        {
+            "id": 155,
+            "patch": [
+                {
+                    "position": "main",
+                    "code": "\/\/AT31 - TanhSinh integration - 8\nauto rez = TanhSinhIntegration([](double x) { return log(fabs(x - 1)); }, 0, 2, 1e-8, 1000);\nstd::cout << rez.first << \" \" << rez.second;",
+                    "use_markers": true
+                }
+            ],
+            "compile[debug]": [],
+            "execute": {
+                "expect": [
+                    "-1.87805 0"
+                ]
+            },
+            "debug": [],
+            "profile[memcheck]": [],
+            "profile[sgcheck]": []
+        },
+        {
+            "id": 156,
+            "patch": [
+                {
+                    "position": "main",
+                    "code": "\/\/AT32 - TanhSinh integration - 9\nauto rez = TanhSinhIntegration([](double x) { return log(fabs(x - 1)); }, 0, 2, 1e-4, 10000);\nstd::cout << rez.first << \" \" << rez.second;",
+                    "use_markers": true
+                }
+            ],
+            "compile[debug]": [],
+            "execute": {
+                "expect": [
+                    "-1.98866 0"
+                ]
+            },
+            "debug": [],
+            "profile[memcheck]": [],
+            "profile[sgcheck]": []
+        },
+        {
+            "id": 157,
+            "patch": [
+                {
+                    "position": "main",
+                    "code": "\/\/AT33 - TanhSinh integration - 10\nauto rez = TanhSinhIntegration([](double x) { return log(fabs(x - 1)); }, 0, 2, 1e-4, 1000000);\nstd::cout << rez.first << \" \" << rez.second;",
+                    "use_markers": true
+                }
+            ],
+            "compile[debug]": [],
+            "execute": {
+                "expect": [
+                    "-1.99974 0"
+                ]
+            },
+            "debug": [],
+            "profile[memcheck]": [],
+            "profile[sgcheck]": []
+        },
+        {
+            "id": 158,
+            "patch": [
+                {
+                    "position": "main",
+                    "code": "\/\/AT34 -  TanhSinh integration - Izuzetak 1\ntry\n{\nauto rez = TanhSinhIntegration([](double x) { return log(fabs(x - 1)); }, 0, 1, -10, 1000000);\n}\ncatch (std::domain_error e)\n{\nstd::cout << \"'\" << e.what() << \"'\";\n}\ncatch (...)\n{\nstd::cout << \"Pogresan tip izuzetka\";\n}",
+                    "use_markers": true
+                }
+            ],
+            "compile[debug]": [],
+            "execute": {
+                "expect": [
+                    "'Bad parameter'"
+                ]
+            },
+            "debug": [],
+            "profile[memcheck]": [],
+            "profile[sgcheck]": []
+        },
+        {
+            "id": 159,
+            "patch": [
+                {
+                    "position": "main",
+                    "code": "\/\/AT35 -  TanhSinh integration - Izuzetak 2\ntry\n{\nauto rez = TanhSinhIntegration([](double x) { return log(fabs(x - 1)); }, 0, 1, 1e-10, -100);\n}\ncatch (std::domain_error e)\n{\nstd::cout << \"'\" << e.what() << \"'\";\n}\ncatch (...)\n{\nstd::cout << \"Pogresan tip izuzetka\";\n}",
+                    "use_markers": true
+                }
+            ],
+            "compile[debug]": [],
+            "execute": {
+                "expect": [
+                    "'Bad parameter'"
+                ]
+            },
+            "debug": [],
+            "profile[memcheck]": [],
+            "profile[sgcheck]": []
+        },
+        {
+            "id": 160,
+            "patch": [
+                {
+                    "position": "main",
+                    "code": "\/\/AT36 -  TanhSinh integration - Izuzetak 3\ntry\n{\nauto rez = TanhSinhIntegration([](double x) { return log(fabs(x - 1)); }, 0, 1, 1e-10, 100,-10);\n}\ncatch (std::domain_error e)\n{\nstd::cout << \"'\" << e.what() << \"'\";\n}\ncatch (...)\n{\nstd::cout << \"Pogresan tip izuzetka\";\n}",
+                    "use_markers": true
+                }
+            ],
+            "compile[debug]": [],
+            "execute": {
+                "expect": [
+                    "'Bad parameter'"
+                ]
+            },
+            "debug": [],
+            "profile[memcheck]": [],
+            "profile[sgcheck]": []
+        },
+        {
+            "id": 161,
+            "patch": [
+                {
+                    "position": "main",
+                    "code": "\/\/AT37 -  TanhSinh integration - Izuzetak 4\ntry\n{\nauto rez = TanhSinhIntegration([](double x) { return log(fabs(x - 1)); }, 0, 1, 1e-10, 100,10,-3.5);\n}\ncatch (std::domain_error e)\n{\nstd::cout << \"'\" << e.what() << \"'\";\n}\ncatch (...)\n{\nstd::cout << \"Pogresan tip izuzetka\";\n}",
+                    "use_markers": true
+                }
+            ],
+            "compile[debug]": [],
+            "execute": {
+                "expect": [
+                    "'Bad parameter'"
+                ]
+            },
+            "debug": [],
+            "profile[memcheck]": [],
+            "profile[sgcheck]": []
+        },
+        {
+            "id": 162,
+            "patch": [
+                {
+                    "position": "main",
+                    "code": "\/\/AT38 -  TanhSinh integration - Izuzetak 5\ntry\n{\nauto rez = TanhSinhIntegration([](double x) { return log(fabs(x - 1)); }, 0, 1, 1e-10, 10,100);\n}\ncatch (std::domain_error e)\n{\nstd::cout << \"'\" << e.what() << \"'\";\n}\ncatch (...)\n{\nstd::cout << \"Pogresan tip izuzetka\";\n}",
+                    "use_markers": true
+                }
+            ],
+            "compile[debug]": [],
+            "execute": {
+                "expect": [
+                    "'Bad parameter'"
+                ]
+            },
+            "debug": [],
+            "profile[memcheck]": [],
+            "profile[sgcheck]": []
+        }
+    ]
+}

@@ -1,0 +1,535 @@
+{
+    "id": null,
+    "name": "Numeri\u010dki algoritmi (2019\/2020), Zada\u0107a 5, zadatak 1",
+    "languages": [
+        "C++"
+    ],
+    "tools": {
+        "compile": {
+            "require": "g++",
+            "features": [
+                "optimize",
+                "warn",
+                "pedantic",
+                "C++11"
+            ]
+        },
+        "compile[debug]": {
+            "require": "g++",
+            "features": [
+                "debug",
+                "C++11"
+            ]
+        },
+        "execute": {
+            "environment": {
+                "timeout": 10,
+                "memory": 1000000
+            }
+        },
+        "debug": [],
+        "profile[memcheck]": {
+            "require": "valgrind",
+            "features": [
+                "memcheck"
+            ],
+            "environment": {
+                "timeout": 10
+            }
+        },
+        "profile[sgcheck]": {
+            "require": "valgrind",
+            "features": [
+                "sgcheck"
+            ],
+            "environment": {
+                "timeout": 10
+            }
+        }
+    },
+    "tests": [
+        {
+            "compile": [],
+            "options": [
+                "silent",
+                "terminate"
+            ]
+        },
+        {
+            "id": 123,
+            "patch": [
+                {
+                    "position": "main",
+                    "code": "\/\/ Test 1: Ogradjivanje nule nadesno\ndouble a, b;\nbool s;\ns = BracketRoot([](double x) { return x - 3; }, 0, a, b);\nstd::cout << s << \" \" << (a < 3) << \" \" << (b > 3);\n",
+                    "use_markers": true
+                }
+            ],
+            "compile[debug]": [],
+            "execute": {
+                "expect": [
+                    "1 1 1"
+                ]
+            },
+            "debug": [],
+            "profile[memcheck]": [],
+            "profile[sgcheck]": []
+        },
+        {
+            "id": 124,
+            "patch": [
+                {
+                    "position": "main",
+                    "code": "\/\/ Test 2: Ogradjivanje nule nalijevo\ndouble a, b;\nbool s;\ns = BracketRoot([](double x) { return x - 3; }, 100, a, b);\nstd::cout << s << \" \" << (a < 3) << \" \" << (b > 3);\n",
+                    "use_markers": true
+                }
+            ],
+            "compile[debug]": [],
+            "execute": {
+                "expect": [
+                    "1 1 1"
+                ]
+            },
+            "debug": [],
+            "profile[memcheck]": [],
+            "profile[sgcheck]": []
+        },
+        {
+            "id": 125,
+            "patch": [
+                {
+                    "position": "main",
+                    "code": "\/\/ Test 3: Ogradjivanje, nema nule\ndouble a, b;\nbool s;\ns = BracketRoot([](double x) { return x * x + 1; }, 0, a, b);\nstd::cout << s;",
+                    "use_markers": true
+                }
+            ],
+            "compile[debug]": [],
+            "execute": {
+                "expect": [
+                    "0"
+                ]
+            },
+            "debug": [],
+            "profile[memcheck]": [],
+            "profile[sgcheck]": []
+        },
+        {
+            "id": 126,
+            "patch": [
+                {
+                    "position": "main",
+                    "code": "\/\/ Test 4: Ogradjivanje, ispravnost parametara\ndouble a, b;\ntry {\n    BracketRoot([](double x) { return x + 1; }, 0, a, b, -1, 1, 1);\n}\ncatch(std::domain_error e) {\n    std::cout << \"'\" << e.what() << \"'\" << std::endl;\n}\ntry {\n    BracketRoot([](double x) { return x + 1; }, 0, a, b, 1, -1, 1);\n}\ncatch(std::domain_error e) {\n    std::cout << \"'\" << e.what()<<\"'\"<< std::endl;\n}\ntry {\n    BracketRoot([](double x) { return x + 1; }, 0, a, b, 1, 1, -1);\n}\ncatch(std::domain_error e) {\n    std::cout  << \"'\" << e.what() << \"'\";\n}",
+                    "use_markers": true
+                }
+            ],
+            "compile[debug]": [],
+            "execute": {
+                "expect": [
+                    "'Invalid parameters'\n'Invalid parameters'\n'Invalid parameters'"
+                ]
+            },
+            "debug": [],
+            "profile[memcheck]": [],
+            "profile[sgcheck]": []
+        },
+        {
+            "id": 127,
+            "patch": [
+                {
+                    "position": "main",
+                    "code": "\/\/ Test 5: Regula falsi, izvorna verzija\nauto fn = [](double x) { return 0.05 * (std::exp(10 * (x - 3)) - 1); };\nstd::cout << RegulaFalsiSolve(fn, 1, 4, Unmodified, 1e-10, 100000) << std::endl;\ntry {\n    std::cout << RegulaFalsiSolve(fn, 1, 4, Unmodified, 1e-10, 50000) << std::endl;\n}\ncatch(std::logic_error e) {\n    std::cout  << \"'\" << e.what() << \"'\";\n}",
+                    "use_markers": true
+                }
+            ],
+            "compile[debug]": [],
+            "execute": {
+                "expect": [
+                    "3\n'Given accuracy has not achieved'"
+                ]
+            },
+            "debug": [],
+            "profile[memcheck]": [],
+            "profile[sgcheck]": []
+        },
+        {
+            "id": 128,
+            "patch": [
+                {
+                    "position": "main",
+                    "code": "\/\/ Test 6: Regula falsi, Illinois verzija\nauto fn = [](double x) { return 0.05 * (std::exp(10 * (x - 3)) - 1); };\nstd::cout << RegulaFalsiSolve(fn, 1, 4, Illinois, 1e-10, 30) << std::endl;\ntry {\n    std::cout << RegulaFalsiSolve(fn, 1, 4, Illinois, 1e-10, 20) << std::endl;\n}\ncatch(std::logic_error e) {\n    std::cout << \"'\" << e.what() << \"'\";\n}",
+                    "use_markers": true
+                }
+            ],
+            "compile[debug]": [],
+            "execute": {
+                "expect": [
+                    "3\n'Given accuracy has not achieved'"
+                ]
+            },
+            "debug": [],
+            "profile[memcheck]": [],
+            "profile[sgcheck]": []
+        },
+        {
+            "id": 129,
+            "patch": [
+                {
+                    "position": "main",
+                    "code": "\/\/ Test 7: Regula falsi, Slaviceva verzija\nauto fn = [](double x) { return 0.05 * (std::exp(10 * (x - 3)) - 1); };\nstd::cout << RegulaFalsiSolve(fn, 1, 4) << std::endl;\ntry {\n    std::cout << RegulaFalsiSolve(fn, 1, 4, Slavic, 1e-8, 40) << std::endl;\n}\ncatch(std::logic_error e) {\n    std::cout << \"'\" << e.what() << \"'\";\n}",
+                    "use_markers": true
+                }
+            ],
+            "compile[debug]": [],
+            "execute": {
+                "expect": [
+                    "3\n'Given accuracy has not achieved'"
+                ]
+            },
+            "debug": [],
+            "profile[memcheck]": [],
+            "profile[sgcheck]": []
+        },
+        {
+            "id": 130,
+            "patch": [
+                {
+                    "position": "main",
+                    "code": "\/\/ Test 8: Regula falsi, Illinois + Slavic\nauto fn = [](double x) { return 0.05 * (std::exp(10 * (x - 3)) - 1); };\nstd::cout << RegulaFalsiSolve(fn, 1, 4, IllinoisSlavic, 1e-10, 20) << std::endl;\ntry {\n    std::cout << RegulaFalsiSolve(fn, 1, 4, IllinoisSlavic, 1e-10, 10) << std::endl;\n}\ncatch(std::logic_error e) {\n    std::cout << \"'\" << e.what() << \"'\";\n}",
+                    "use_markers": true
+                }
+            ],
+            "compile[debug]": [],
+            "execute": {
+                "expect": [
+                    "3\n'Given accuracy has not achieved'"
+                ]
+            },
+            "debug": [],
+            "profile[memcheck]": [],
+            "profile[sgcheck]": []
+        },
+        {
+            "id": 131,
+            "patch": [
+                {
+                    "position": "main",
+                    "code": "\/\/ Test 9: Regula falsi, izuzeci\ntry {\n    RegulaFalsiSolve([](double x) { return x; }, 1, 2);\n}\ncatch(std::range_error e) {\n    std::cout << \"'\" << e.what() << \"'\" << std::endl;\n}\ntry {\n    RegulaFalsiSolve([](double x) { return x; }, -1, 1, Slavic, -1, 1);\n}\ncatch(std::domain_error e) {\n    std::cout << \"'\" << e.what() << \"'\" << std::endl;\n}\ntry {\n    RegulaFalsiSolve([](double x) { return x; }, -1, 1, Slavic, 1, -1);\n}\ncatch(std::domain_error e) {\n    std::cout << \"'\" << e.what() << \"'\";\n}",
+                    "use_markers": true
+                }
+            ],
+            "compile[debug]": [],
+            "execute": {
+                "expect": [
+                    "'Root must be bracketed'\n'Invalid parameters'\n'Invalid parameters'"
+                ]
+            },
+            "debug": [],
+            "profile[memcheck]": [],
+            "profile[sgcheck]": []
+        },
+        {
+            "id": 132,
+            "patch": [
+                {
+                    "position": "main",
+                    "code": "\/\/ Test 10: Ridders\nauto fn = [](double x) { return 0.05 * (std::exp(10 * (x - 3)) - 1); };\nstd::cout << RiddersSolve(fn, 1, 4, 1e-8, 20) << std::endl;\ntry {\n    std::cout << RiddersSolve(fn, 1, 4, 1e-8, 4) << std::endl;\n}\ncatch(std::logic_error e) {\n    std::cout << \"'\" << e.what() << \"'\";\n}",
+                    "use_markers": true
+                }
+            ],
+            "compile[debug]": [],
+            "execute": {
+                "expect": [
+                    "3\n'Given accuracy has not achieved'"
+                ]
+            },
+            "debug": [],
+            "profile[memcheck]": [],
+            "profile[sgcheck]": []
+        },
+        {
+            "id": 133,
+            "patch": [
+                {
+                    "position": "main",
+                    "code": "\/\/ Test 11: Ridders, izuzeci\ntry {\n    RiddersSolve([](double x) { return x; }, 1, 2);\n}\ncatch(std::range_error e) {\n    std::cout << \"'\" << e.what() << \"'\" << std::endl;\n}\ntry {\n    RiddersSolve([](double x) { return x; }, -1, 1, -1, 1);\n}\ncatch(std::domain_error e) {\n    std::cout << \"'\" << e.what() << \"'\" << std::endl;\n}\ntry {\n    RiddersSolve([](double x) { return x; }, -1, 1, 1, -1);\n}\ncatch(std::domain_error e) {\n    std::cout << \"'\" << e.what() << \"'\";\n}",
+                    "use_markers": true
+                }
+            ],
+            "compile[debug]": [],
+            "execute": {
+                "expect": [
+                    "'Root must be bracketed'\n'Invalid parameters'\n'Invalid parameters'"
+                ]
+            },
+            "debug": [],
+            "profile[memcheck]": [],
+            "profile[sgcheck]": []
+        },
+        {
+            "id": 134,
+            "patch": [
+                {
+                    "position": "main",
+                    "code": "\/\/ Test 12: Newton Raphson\nauto fn = [](double x) { return x * x - 2; };\nauto fnprim = [](double x) { return 2 * x; };\nstd::cout << NewtonRaphsonSolve(fn, fnprim, 5, 1e-10, 0, 10) << std::endl;\n",
+                    "use_markers": true
+                }
+            ],
+            "compile[debug]": [],
+            "execute": {
+                "expect": [
+                    "1.41421"
+                ]
+            },
+            "debug": [],
+            "profile[memcheck]": [],
+            "profile[sgcheck]": []
+        },
+        {
+            "id": 135,
+            "patch": [
+                {
+                    "position": "main",
+                    "code": "\/\/ Test 13: BracketRoot - new\ndouble a, b;\nbool s;\ns = BracketRoot([](double x) { return std::asin(x) - std::tan(x); }, 0, a, b);\nstd::cout << s << \" \" << (a < 3) << \" \" << (b > 3);",
+                    "use_markers": true
+                }
+            ],
+            "compile[debug]": [],
+            "execute": {
+                "expect": [
+                    "1 1 0"
+                ]
+            },
+            "debug": [],
+            "profile[memcheck]": [],
+            "profile[sgcheck]": []
+        },
+        {
+            "id": 136,
+            "patch": [
+                {
+                    "position": "main",
+                    "code": "\/\/ Test 14: Newton-Raphson, izuzeci\nauto f = [](double x) { return x; };\nauto fp = [](double x) { return 1; };\ntry {\n    NewtonRaphsonSolve(f, fp, 1, -1, 0, 1);\n}\ncatch(std::domain_error e) {\n    std::cout << \"'\" << e.what() << \"'\";\n}",
+                    "use_markers": true
+                }
+            ],
+            "compile[debug]": [],
+            "execute": {
+                "expect": [
+                    "'Invalid parameters'\n"
+                ]
+            },
+            "debug": [],
+            "profile[memcheck]": [],
+            "profile[sgcheck]": []
+        },
+        {
+            "id": 137,
+            "patch": [
+                {
+                    "position": "main",
+                    "code": "\/\/ Test 15: PolyRoots, verzija sa kompleksnim vektorom, nule -3, -2 i -1\nstd::vector<std::complex<double>> coeff{6, 11, 6, 1};\nstd::vector<std::complex<double>> sols{-3, -2, -1};\nstd::vector<std::complex<double>> z = PolyRoots(coeff);\nfor(int i = 0; i < z.size(); i++)\n    std::cout << (std::abs(z[i]-sols[i]) < 1e-8) << std::endl;",
+                    "use_markers": true
+                }
+            ],
+            "compile[debug]": [],
+            "execute": {
+                "expect": [
+                    "1\n1\n1\n"
+                ]
+            },
+            "debug": [],
+            "profile[memcheck]": [],
+            "profile[sgcheck]": []
+        },
+        {
+            "id": 138,
+            "patch": [
+                {
+                    "position": "main",
+                    "code": "\/\/ Test 16: PolyRoots, verzija sa kompleksnim vektorom, nule 1-2i, 1+2i i 3\nstd::vector<std::complex<double>> coeff{-15, 11, -5, 1};\nstd::vector<std::complex<double>> sols{{1, -2}, {1, 2}, 3};\nstd::vector<std::complex<double>> z = PolyRoots(coeff);\nfor(int i = 0; i < z.size(); i++)\n    std::cout << (std::abs(z[i]-sols[i]) < 1e-8) << std::endl;",
+                    "use_markers": true
+                }
+            ],
+            "compile[debug]": [],
+            "execute": {
+                "expect": [
+                    "0\n0\n1\n",
+                    "1\n1\n1\n"
+                ]
+            },
+            "debug": [],
+            "profile[memcheck]": [],
+            "profile[sgcheck]": []
+        },
+        {
+            "id": 139,
+            "patch": [
+                {
+                    "position": "main",
+                    "code": "\/\/ Test 17: PolyRoots, kompleksni koeficijenti, nule 1+2i, 3 i 4-5i\nstd::vector<std::complex<double>> coeff{{-42, -9}, {29, -6}, {-8, 3}, 1};\nstd::vector<std::complex<double>> sols{{1, 2}, 3, {4, -5}};\nstd::vector<std::complex<double>> z = PolyRoots(coeff);\nfor(int i = 0; i < z.size(); i++)\n    std::cout << (std::abs(z[i]-sols[i]) < 1e-8) << std::endl;",
+                    "use_markers": true
+                }
+            ],
+            "compile[debug]": [],
+            "execute": {
+                "expect": [
+                    "1\n1\n1\n"
+                ]
+            },
+            "debug": [],
+            "profile[memcheck]": [],
+            "profile[sgcheck]": []
+        },
+        {
+            "id": 140,
+            "patch": [
+                {
+                    "position": "main",
+                    "code": "\/\/ Test 18: Test PolyRoots, verzija sa realnim vektorom, nule -3, -2 i -1\nstd::vector<double> coeff{6, 11, 6, 1};\nstd::vector<std::complex<double>> sols{-3, -2, -1};\nstd::vector<std::complex<double>> z = PolyRoots(coeff);\nfor(int i = 0; i < z.size(); i++)\n    std::cout << (std::abs(z[i]-sols[i]) < 1e-8) << std::endl;",
+                    "use_markers": true
+                }
+            ],
+            "compile[debug]": [],
+            "execute": {
+                "expect": [
+                    "1\n1\n1\n"
+                ]
+            },
+            "debug": [],
+            "profile[memcheck]": [],
+            "profile[sgcheck]": []
+        },
+        {
+            "id": 141,
+            "patch": [
+                {
+                    "position": "main",
+                    "code": "\/\/ Test 19: Test PolyRoots, verzija sa realnim vektorom, nule 1-2i, 1+2i i 3\nstd::vector<double> coeff{-15, 11, -5, 1};\nstd::vector<std::complex<double>> sols{{1, -2}, {1, 2}, 3};\nstd::vector<std::complex<double>> z = PolyRoots(coeff);\nfor(int i = 0; i < z.size(); i++)\n    std::cout << (std::abs(z[i]-sols[i]) < 1e-8) << std::endl;",
+                    "use_markers": true
+                }
+            ],
+            "compile[debug]": [],
+            "execute": {
+                "expect": [
+                    "1\n1\n1\n"
+                ]
+            },
+            "debug": [],
+            "profile[memcheck]": [],
+            "profile[sgcheck]": []
+        },
+        {
+            "id": 142,
+            "patch": [
+                {
+                    "position": "main",
+                    "code": "\/\/ Test 20: PolyRoots, cetverostruka nula, nemoguce dobiti jako dobru tacnost\nstd::vector<double> coeff{1, 4, 6, 4, 1};\nstd::vector<std::complex<double>> sols{-1, -1, -1, -1};\nstd::vector<std::complex<double>> z = PolyRoots(coeff);\nfor(int i = 0; i < z.size(); i++)\n    std::cout << (std::abs(z[i]-sols[i]) < 1e-3) << std::endl;",
+                    "use_markers": true
+                }
+            ],
+            "compile[debug]": [],
+            "execute": {
+                "expect": [
+                    "1\n1\n1\n1\n"
+                ]
+            },
+            "debug": [],
+            "profile[memcheck]": [],
+            "profile[sgcheck]": []
+        },
+        {
+            "id": 143,
+            "patch": [
+                {
+                    "position": "main",
+                    "code": "\/\/ Test 21: PolyRoots s kompleksnim koeficijentima, izuzeci\nstd::vector<std::complex<double>> coeff{6, 11, 6, 1};\ntry {\n    PolyRoots(coeff, 1e-10, 3, 3);\n}\ncatch(std::logic_error e) {\n    std::cout << \"'\"<< e.what() << \"'\"<< std::endl;\n}\ntry {\n    PolyRoots(coeff, -1, 1, 1);\n}\ncatch(std::logic_error e) {\n    std::cout << \"'\"<< e.what() << \"'\"<< std::endl;\n}\ntry {\n    PolyRoots(coeff, 1, -1, 1);\n}\ncatch(std::logic_error e) {\n    std::cout << \"'\"<< e.what() << \"'\"<< std::endl;\n}\ntry {\n    PolyRoots(coeff, 1, 1, -1);\n}\ncatch(std::logic_error e) {\n    std::cout << \"'\" << e.what() << \"'\";\n}",
+                    "use_markers": true
+                }
+            ],
+            "compile[debug]": [],
+            "execute": {
+                "expect": [
+                    "'Convergence has not achieved'\n'Invalid parameters'\n'Invalid parameters'\n'Invalid parameters'"
+                ]
+            },
+            "debug": [],
+            "profile[memcheck]": [],
+            "profile[sgcheck]": []
+        },
+        {
+            "id": 144,
+            "patch": [
+                {
+                    "position": "main",
+                    "code": "\/\/ Test 22: PolyRoots s realnim koeficijentima, izuzeci\nstd::vector<double> coeff{6, 11, 6, 1};\ntry {\n    PolyRoots(coeff, 1e-10, 3, 3);\n}\ncatch(std::logic_error e) {\n    std::cout << \"'\"<< e.what() << \"'\"<< std::endl;\n}\ntry {\n    PolyRoots(coeff, -1, 1, 1);\n}\ncatch(std::logic_error e) {\n    std::cout << \"'\"<< e.what() << \"'\"<< std::endl;\n}\ntry {\n    PolyRoots(coeff, 1, -1, 1);\n}\ncatch(std::logic_error e) {\n    std::cout << \"'\"<< e.what() << \"'\"<< std::endl;\n}\ntry {\n    PolyRoots(coeff, 1, 1, -1);\n}\ncatch(std::logic_error e) {\n    std::cout << \"'\" << e.what() << \"'\";\n}",
+                    "use_markers": true
+                }
+            ],
+            "compile[debug]": [],
+            "execute": {
+                "expect": [
+                    "'Convergence has not achieved'\n'Invalid parameters'\n'Invalid parameters'\n'Invalid parameters'"
+                ]
+            },
+            "debug": [],
+            "profile[memcheck]": [],
+            "profile[sgcheck]": []
+        },
+        {
+            "id": 145,
+            "patch": [
+                {
+                    "position": "main",
+                    "code": "\/\/ Test 23: Newton-Raphson, izuzeci 2\nauto f = [](double x) { return x; };\nauto fp = [](double x) { return 1; };\ntry {\n    NewtonRaphsonSolve(f, fp, 1, 1, -1);\n}\ncatch(std::domain_error e) {\n    std::cout << \"'\" << e.what() << \"'\" << std::endl;\n}\ntry {\n    NewtonRaphsonSolve(f, fp, 1, 1e-10,12, 10);\n}\ncatch(std::domain_error e) {\n    std::cout << \"'\" << e.what() << \"'\" << std::endl;\n}\ntry {\n    NewtonRaphsonSolve(f, fp, 1,1e-10, -3, 10);\n}\ncatch(std::domain_error e) {\n    std::cout << \"'\" << e.what() << \"'\";\n}",
+                    "use_markers": true
+                }
+            ],
+            "compile[debug]": [],
+            "execute": {
+                "expect": [
+                    "'Invalid parameters'\n'Invalid parameters'\n'Invalid parameters'"
+                ]
+            },
+            "debug": [],
+            "profile[memcheck]": [],
+            "profile[sgcheck]": []
+        },
+        {
+            "id": 146,
+            "patch": [
+                {
+                    "position": "main",
+                    "code": "\/\/ Test 24: Newton Raphson\nauto fn = [](double x) { return std::atan(x-1); };\nauto fnprim = [](double x) { return 1.\/(1+(x-1)*(x-1)); };\ntry{\n   NewtonRaphsonSolve(fn, fnprim, 3, 1e-10, 0, 1000);\n}\ncatch(std::logic_error e) {\n    std::cout << \"'\" << e.what() << \"'\";\n}\n",
+                    "use_markers": true
+                }
+            ],
+            "compile[debug]": [],
+            "execute": {
+                "expect": [
+                    "'Convergence has not achieved'"
+                ]
+            },
+            "debug": [],
+            "profile[memcheck]": [],
+            "profile[sgcheck]": []
+        },
+        {
+            "id": 147,
+            "patch": [
+                {
+                    "position": "main",
+                    "code": "\/\/ Test 25: Newton Raphson\nauto fn = [](double x) { return std::atan(x-1); };\nauto fnprim = [](double x) { return 1.\/(1+(x-1)*(x-1)); };\nstd::cout << NewtonRaphsonSolve(fn, fnprim, 3, 1e-10, 0.5, 1000);",
+                    "use_markers": true
+                }
+            ],
+            "compile[debug]": [],
+            "execute": {
+                "expect": [
+                    "1"
+                ]
+            },
+            "debug": [],
+            "profile[memcheck]": [],
+            "profile[sgcheck]": []
+        }
+    ]
+}
